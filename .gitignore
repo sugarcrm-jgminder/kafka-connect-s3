@@ -1,6 +1,11 @@
 build/
+target/
 local-*
 .idea
 *.iml
+*.class
+*.classpath
+*.project
+*.settings
 .gradle
 out
