@@ -198,7 +198,7 @@ public class KafkaIntegrationTests {
 			waitForPassing(Duration.ofSeconds(5), () -> {
 				assertTrue(AdminUtils.fetchTopicMetadataFromZk(topic, kafkaServer.zkUtils())
 					.partitionMetadata().stream()
-					.allMatch(pm -> !pm.leader().isEmpty()));
+					.allMatch(pm -> pm.leaderId.isPresent() ));
 			});
 			return topic;
 		}
