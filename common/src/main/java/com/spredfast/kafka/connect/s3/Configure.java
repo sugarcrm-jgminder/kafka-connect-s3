@@ -99,6 +99,7 @@ public abstract class Configure {
 			.orElse(Metrics.NOOP);
 	}
 
+	@SuppressWarnings("unchecked")
 	private static Class<? extends Metrics> clazz(String className) {
 		try {
 			Class<?> aClass = Class.forName(className);
@@ -112,6 +113,7 @@ public abstract class Configure {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static S3RecordFormat createFormat(Map<String, String> props) {
 		try {
 			S3RecordFormat recordFormat = (S3RecordFormat) ofNullable(props.get("format")).map(Object::toString)

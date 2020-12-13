@@ -2,10 +2,10 @@ build/
 target/
 local-*
 .idea
+.vscode
 *.iml
 *.class
 *.classpath
 *.project
-*.settings
 .gradle
 out

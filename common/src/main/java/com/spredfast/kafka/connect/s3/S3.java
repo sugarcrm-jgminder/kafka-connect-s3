@@ -20,7 +20,7 @@ public class S3 {
 		}
 		Boolean s3PathStyle = Boolean.parseBoolean(config.get("s3.path_style"));
 		if (s3PathStyle) {
-			s3Client.setS3ClientOptions(new S3ClientOptions().withPathStyleAccess(true));
+			s3Client.setS3ClientOptions(S3ClientOptions.builder().setPathStyleAccess(true).build());
 		}
 		return s3Client;
 	}

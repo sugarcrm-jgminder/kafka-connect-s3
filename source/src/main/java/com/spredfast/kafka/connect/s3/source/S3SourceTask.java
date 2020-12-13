@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.connect.data.SchemaAndValue;
 import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.source.SourceRecord;
@@ -243,7 +244,7 @@ public class S3SourceTask extends SourceTask {
 	}
 
 	@Override
-	public void commitRecord(SourceRecord record) throws InterruptedException {
+	public void commitRecord(SourceRecord record, RecordMetadata metadata) throws InterruptedException {
 		log.debug("{} Commit record w/ offset {}", name(), record.sourceOffset());
 	}
 
