@@ -2,6 +2,7 @@ buildscript {
 	repositories {
 		jcenter()
 	}
+
 	dependencies {
 		classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
 		classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.0"
@@ -12,7 +13,7 @@ plugins {
 	id 'com.palantir.git-version' version '0.5.2'
 }
 
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'io.codearte.nexus-staging'
 
 description = "kafka-connect-s3"
