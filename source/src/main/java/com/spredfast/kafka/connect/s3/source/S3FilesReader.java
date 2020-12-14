@@ -123,9 +123,6 @@ public class S3FilesReader implements Iterable<S3SourceRecord> {
 		return new Iterator<S3SourceRecord>() {
 			String currentKey;
 
-			Iterator<S3ObjectSummary> nextFile = Collections.emptyIterator();
-			Iterator<ConsumerRecord<byte[], byte[]>> iterator = Collections.emptyIterator();
-
 			ListObjectsV2Result objectListing;
 			ListObjectsV2Request request = new ListObjectsV2Request()
 				.withBucketName(config.bucket)
@@ -135,6 +132,8 @@ public class S3FilesReader implements Iterable<S3SourceRecord> {
 				// we have to filter out chunk indexes on this end, so
 				// whatever the requested page size is, we'll need twice that
 				.withMaxKeys(config.pageSize * 2);
+			Iterator<S3ObjectSummary> nextFile = Collections.emptyIterator();
+			Iterator<ConsumerRecord<byte[], byte[]>> iterator = Collections.emptyIterator();
 
 			private void nextObject() {
 				while (!nextFile.hasNext() && hasMoreObjects()) {
@@ -150,7 +149,7 @@ public class S3FilesReader implements Iterable<S3SourceRecord> {
 					} else {
 						String startAfter = objectListing.getObjectSummaries()
 							.get(objectListing.getObjectSummaries().size() - 1)
-							.getKey();
+						 	.getKey();
 						objectListing = s3Client.listObjectsV2(request.withStartAfter(startAfter));
 						log.debug("aws ls {}/{} after:{} = {}", config.bucket, config.keyPrefix, startAfter,
 							LazyString.of(() -> objectListing.getObjectSummaries().stream().map(S3ObjectSummary::getKey).collect(toList())));

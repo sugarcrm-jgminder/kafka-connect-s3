@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
+import com.amazonaws.services.s3.model.*;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.SchemaAndValue;
@@ -36,13 +37,6 @@ import org.mockito.stubbing.Answer;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.ListNextBatchOfObjectsRequest;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
-import com.amazonaws.services.s3.model.ObjectListing;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.spredfast.kafka.connect.s3.sink.BlockGZIPFileWriter;
 import com.spredfast.kafka.connect.s3.source.S3FilesReader;
 import com.spredfast.kafka.connect.s3.source.S3Offset;
@@ -215,11 +209,11 @@ public class S3FilesReaderTest {
 
 	private AmazonS3 givenAMockS3Client(final Path dir) {
 		final AmazonS3 client = mock(AmazonS3Client.class);
-		when(client.listObjects(any(ListObjectsRequest.class))).thenAnswer(new Answer<ObjectListing>() {
+		when(client.listObjectsV2(any(ListObjectsV2Request.class))).thenAnswer(new Answer<ListObjectsV2Result>() {
 			@Override
-			public ObjectListing answer(InvocationOnMock invocationOnMock) throws Throwable {
-				final ListObjectsRequest req = (ListObjectsRequest) invocationOnMock.getArguments()[0];
-				ObjectListing listing = new ObjectListing();
+			public ListObjectsV2Result answer(InvocationOnMock invocationOnMock) throws Throwable {
+				final ListObjectsV2Request req = (ListObjectsV2Request) invocationOnMock.getArguments()[0];
+				ListObjectsV2Result listing = new ListObjectsV2Result();
 
 				final Set<File> files = new TreeSet<>();
 				Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
@@ -234,8 +228,8 @@ public class S3FilesReaderTest {
 					@Override
 					public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 						String key = key(file.toFile());
-						if (req.getMarker() == null
-							|| key.compareTo(req.getMarker()) > 0) {
+						if (req.getStartAfter() == null
+							|| key.compareTo(req.getStartAfter()) > 0) {
 							files.add(file.toFile());
 						}
 						return FileVisitResult.CONTINUE;
@@ -249,7 +243,7 @@ public class S3FilesReaderTest {
 						S3ObjectSummary summary = new S3ObjectSummary();
 						String key = key(file);
 						summary.setKey(key);
-						listing.setNextMarker(key);
+						listing.setStartAfter(key);
 							summaries.add(summary);
 					} else {
 						break;
