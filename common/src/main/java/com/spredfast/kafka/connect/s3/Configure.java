@@ -44,10 +44,10 @@ public abstract class Configure {
 				if (defaultConverterClass == null) {
 					return null;
 				} else {
-					converter = defaultConverterClass.newInstance();
+					converter = defaultConverterClass.getDeclaredConstructor().newInstance();
 				}
 			} else {
-				converter = (Converter) Class.forName(className).newInstance();
+				converter = (Converter) Class.forName(className).getDeclaredConstructor().newInstance();
 			}
 
 			if (converter instanceof Configurable) {
@@ -126,6 +126,7 @@ public abstract class Configure {
 					}
 				})
 				.orElseGet(() -> (Class) DEFAULT_FORMAT)
+				.getDeclaredConstructor()
 				.newInstance();
 			if (recordFormat instanceof Configurable) {
 				((Configurable) recordFormat).configure(subKeys("format", props));

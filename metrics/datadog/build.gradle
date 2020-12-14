@@ -1,18 +1,18 @@
 description = "Datadog Metrics Reporter for the Kafka Connect S3 Connector"
 
 dependencies {
-	compile project(':common')
-    compile group: 'org.coursera', name: 'metrics-datadog', version: '1.1.6'
-	compile 'com.google.guava:guava:18.0'
+	implementation project(':common')
+  implementation "org.coursera:metrics-datadog:1.1.6"
+	implementation "com.google.guava:guava:18.0"
 
-	testCompile group: 'junit', name: 'junit', version: '4.12'
-	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+	testImplementation "junit:junit:4.1"
+	testImplementation "org.mockito:mockito-core:2.23.4"
 }
 
 apply plugin: "com.github.johnrengelman.shadow"
 
 shadowJar {
-	baseName = "kafka-connect-s3-metrics-datadog"
+	archiveBaseName = "kafka-connect-s3-metrics-datadog"
 	dependencies {
 		exclude project(':common')
 		exclude project(':api')
@@ -32,8 +32,6 @@ ext {
 	pomHumanName = 'Kafka Connect S3 Datadog Metrics Reporter'
 	pomDesc = 'Datadog Metrics Reporter for S3 Connectors for Kafka Connect'
 }
-
-
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
 	classifier = 'javadoc'

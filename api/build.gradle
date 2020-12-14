@@ -1,5 +1,5 @@
 description = ""
 
 dependencies {
-    compile "org.apache.kafka:connect-api:2.6.0"
+    implementation "org.apache.kafka:connect-api:2.6.0"
 }

@@ -33,6 +33,10 @@ public class DatadogMetrics implements Metrics {
 
 	private final Map<String, Map<Map<String, String>, String>> nameCache = new HashMap<>();
 
+	/**
+	 * 
+	 * @param config - The DataDogmetrics configuration to use.
+	 */
 	public DatadogMetrics(Map<String, String> config) {
 		registry = new MetricRegistry();
 
@@ -147,6 +151,10 @@ public class DatadogMetrics implements Metrics {
 		}
 	}
 
+	/**
+	 * 
+	 * @return registry
+	 */
 	public MetricRegistry getRegistry() {
 		return registry;
 	}

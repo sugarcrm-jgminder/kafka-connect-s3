@@ -30,7 +30,7 @@ allprojects  {
     options.deprecation = true
   }
 
-  apply plugin: 'java'
+  apply plugin: 'java-library'
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
 
@@ -60,8 +60,8 @@ shadowJar {
 }
 
 dependencies {
-	compile project(':sink')
-	compile project(':source')
+	implementation project(':sink')
+	implementation project(':source')
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
