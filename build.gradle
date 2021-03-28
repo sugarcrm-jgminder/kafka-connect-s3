@@ -22,7 +22,7 @@ allprojects  {
   apply plugin: 'idea'
 
   group = 'com.spredfast.kafka.connect.s3'
-  version = '1.0.2'
+  version = '1.0.3'
 
   apply plugin: 'java'
   sourceCompatibility = 1.8
@@ -38,8 +38,8 @@ apply plugin: "com.github.johnrengelman.shadow"
 shadowJar {
 	dependencies {
 		// provided in the connect classpath
-		exclude(dependency('org.apache.kafka:connect-api:2.6.0'))
-		exclude(dependency('org.apache.kafka:kafka-clients:2.6.0'))
+		exclude(dependency('org.apache.kafka:connect-api:2.6.1'))
+		exclude(dependency('org.apache.kafka:kafka-clients:2.6.1'))
 		exclude(dependency('net.jpountz.lz4:.*:.*'))
 		exclude(dependency('org.xerial.snappy:.*:.*'))
 		exclude(dependency('org.slf4j:.*:.*'))
